@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qraft Labs - Where Quality Meets Code</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: #0a0a0a;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 255, 157, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00ff9d, #00b8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #00ff9d, #00b8ff);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger {
+            width: 25px;
+            height: 3px;
+            background: #ffffff;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(circle at 30% 50%, rgba(0, 255, 157, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 184, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #00ff9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-bottom: 15px;
+            color: #00ff9d;
+            font-weight: 600;
+        }
+
+        .hero .description {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #b3b3b3;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #00ff9d, #00b8ff);
+            color: #0a0a0a;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 255, 157, 0.4);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            background: #111111;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #00ff9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 157, 0.2);
+            border-color: rgba(0, 255, 157, 0.3);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #00ff9d, #00b8ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #00ff9d;
+        }
+
+        .service-card p {
+            color: #b3b3b3;
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background: #0a0a0a;
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        .founder-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .founder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 157, 0.1);
+        }
+
+        .founder-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #00ff9d, #00b8ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #0a0a0a;
+        }
+
+        .founder-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .founder-card .role {
+            color: #00ff9d;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .founder-card .description {
+            color: #b3b3b3;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background: rgba(0, 255, 157, 0.1);
+            color: #00ff9d;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 100px 0;
+            background: #111111;
+        }
+
+        .portfolio-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .portfolio-content h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #00ff9d;
+        }
+
+        .portfolio-content p {
+            font-size: 1.2rem;
+            color: #b3b3b3;
+            margin-bottom: 30px;
+        }
+
+        .coming-soon {
+            display: inline-block;
+            padding: 15px 30px;
+            background: rgba(0, 255, 157, 0.1);
+            color: #00ff9d;
+            border: 2px solid #00ff9d;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .coming-soon:hover {
+            background: #00ff9d;
+            color: #0a0a0a;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background: #0a0a0a;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00ff9d;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #00ff9d;
+            box-shadow: 0 0 0 3px rgba(0, 255, 157, 0.1);
+        }
+
+        .form-group select option {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #00ff9d, #00b8ff);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #111111;
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content p {
+            color: #b3b3b3;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #00ff9d;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+
+            .hero .description {
+                font-size: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .founders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <nav class="container">
+            <div class="logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDQwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMCA1MEMxMCAzMC4xMDg2IDI2LjEwODYgMTQgNDYgMTRDNjUuODkxNCAxNCA4MiAzMC4xMDg2IDgyIDUwQzgyIDY5Ljg5MTQgNjUuODkxNCA4NiA0NiA4NkMyNi4xMDg2IDg2IDEwIDY5Ljg5MTQgMTAgNTBaIiBzdHJva2U9IiMwMEZGOUQiIHN0cm9rZS13aWR0aD0iMyIvPgo8cGF0aCBkPSJNMzAgNTBDMzAgMzUuMDg4MyAzNS4wODgzIDMwIDUwIDMwQzY0LjkxMTcgMzAgNzAgMzUuMDg4MyA3MCA1MEMzMCA1MCAzMCA1MCAzMCA1MFoiIGZpbGw9IiMwMEZGOUQiLz4KPHBhdGggZD0iTTEwMCA1MEMxMDAgMzAuMTA4NiAxMTYuMTA5IDE0IDEzNiAxNEMxNTUuODkxIDE0IDE3MiAzMC4xMDg2IDE3MiA1MEMxNzIgNjkuODkxNCAxNTUuODkxIDg2IDEzNiA4NkMxMTYuMTA5IDg2IDEwMCA2OS44OTE0IDEwMCA1MFoiIGZpbGw9IiMwMEZGOUQiLz4KPC9zdmc+" alt="Qraft Labs Logo">
+                <span>Qraft Labs</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <div class="hamburger"></div>
+                <div class="hamburger"></div>
+                <div class="hamburger"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <h1>Qraft Labs</h1>
+                <p class="tagline">Where Quality Meets Code</p>
+                <p class="description">We deliver cutting-edge testing solutions that ensure your software meets the highest standards of quality, performance, and reliability.</p>
+                <a href="#contact" class="cta-button">Start Your Project</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Services</h2>
+                <p>Comprehensive testing solutions for modern software development</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🔍</div>
+                    <h3>Manual Testing</h3>
+                    <p>Comprehensive manual testing to ensure user experience excellence and catch issues automated tests might miss.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>Test Automation</h3>
+                    <p>Robust automation frameworks using Selenium, Cypress, and other cutting-edge tools for efficient testing.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔌</div>
+                    <h3>API Testing</h3>
+                    <p>Thorough API testing to ensure your backend services are reliable, secure, and performant.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚡</div>
+                    <h3>Performance Testing</h3>
+                    <p>Load and stress testing to ensure your application performs under real-world conditions.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3>CI/CD Integration</h3>
+                    <p>Seamless integration of testing into your development pipeline for continuous quality assurance.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3>Mobile Testing</h3>
+                    <p>Comprehensive mobile app testing across devices and platforms to ensure flawless user experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Meet the Founders</h2>
+                <p>Passionate quality engineers dedicated to delivering excellence</p>
+            </div>
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <div class="founder-avatar">KP</div>
+                    <h3>Kaushal Patel</h3>
+                    <p class="role">Co-Founder & QA Engineer</p>
+                    <p class="description">Experienced QA professional with a keen eye for detail and a passion for ensuring software quality. Specializes in manual testing, functional testing, and quality assurance processes.</p>
+                    <div class="skills">
+                        <span class="skill-tag">Manual Testing</span>
+                        <span class="skill-tag">Functional Testing</span>
+                        <span class="skill-tag">Bug Tracking</span>
+                        <span class="skill-tag">Quality Assurance</span>
+                        <span class="skill-tag">Test Planning</span>
+                    </div>
+                </div>
+                <div class="founder-card">
+                    <div class="founder-avatar">SB</div>
+                    <h3>Shivam Bhayani</h3>
+                    <p class="role">Co-Founder & Automation Engineer</p>
+                    <p class="description">Automation specialist with expertise in building robust testing frameworks. Focuses on Selenium automation, CI/CD pipelines, and API testing solutions.</p>
+                    <div class="skills">
+                        <span class="skill-tag">Selenium</span>
+                        <span class="skill-tag">Test Automation</span>
+                        <span class="skill-tag">CI/CD</span>
+                        <span class="skill-tag">API Testing</span>
+                        <span class="skill-tag">Python</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Portfolio</h2>
+            </div>
+            <div class="portfolio-content">
+                <h3>Building Something Amazing</h3>
+                <p>We're currently working on showcasing our best projects and case studies. Our portfolio will feature detailed examples of our testing solutions and the impact we've made for our clients.</p>
+                <a href="#contact" class="coming-soon">Get Early Access</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Let's Work Together</h2>
+                <p>Ready to elevate your software quality? Get in touch with us</p>
+                <div class="contact-info">
+                    <p style="color: #00ff9d; font-size: 1.1rem; margin-top: 20px;">
+                        📧 <a href="mailto:quality.qraftlabs@gmail.com" style="color: #00ff9d; text-decoration: none;">quality.qraftlabs@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="project">Project Type</label>
+                    <select id="project" name="project" required>
+                        <option value="">Select a service</option>
+                        <option value="manual">Manual Testing</option>
+                        <option value="automation">Test Automation</option>
+                        <option value="api">API Testing</option>
+                        <option value="performance">Performance Testing</option>
+                        <option value="mobile">Mobile Testing</option>
+                        <option value="consultation">Consultation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Qraft Labs. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <p>Built with ❤️ by Kaushal Patel & Shivam Bhayani</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            // Simulate form submission
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                submitBtn.textContent = 'Message Sent!';
+                submitBtn.style.background = '#00ff9d';
+                
+                // Reset form
+                this.reset();
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.background = '';
+                }, 3000);
+            }, 2000);
+        });
+
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
